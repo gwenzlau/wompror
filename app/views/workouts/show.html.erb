@@ -1,0 +1,17 @@
+<p align="center">Alert: Starting in 3, 2, 1... disappear</p>
+<h1 align="center">Workout Show</h1>
+ <p align="center">Total workout time left: <%= @workout.duration %></p>
+ <hr>
+<h4 align="center">Render workouts loop<br><br>
+
+<table>
+  <% @exercises.each do |e| %>
+  <tr>
+      <td><h4<%= Exercise.find(params[e.exercise_id]).name %> <br>
+      	00:<%= Exercise.find(params[:id]).duration %></td>
+  </tr>
+  <%end%> 
+</table>
+
+	<br><br>
+<%= link_to 'Quit', root_path %></h4>

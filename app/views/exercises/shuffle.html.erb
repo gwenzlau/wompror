@@ -1,5 +1,29 @@
 <br><br>
  <% @exercises.each do |exercise| %>
      <h1 align="center"><%= exercise.name %></h1><br>
-          <h1 align="center">00:<%= exercise.duration %></h1>
+         <div id="highlightCountdown" class="countdown is-countdown highlight"><span class="countdown-section"><span class="countdown-amount"><h1 align="center">00:<%= exercise.duration %></h1></span></span> </div>
     <% end %>
+    
+    <br><br>
+    <br><br>
+    up next:
+</br>
+    <%= link_to 'Quit', exercises_path %>
+
+
+    <script>
+    $('#highlightCountdown').countdown({until: 0, 
+    onTick: highlightLast5}); 
+     
+function highlightLast5(periods) { 
+    if ($.countdown.periodsToSeconds(periods) === 5) { 
+        $(this).addClass('highlight'); 
+    } 
+} 
+ 
+$('#highlightButton').click(function() { 
+    $('#highlightCountdown').removeClass('highlight'). 
+        countdown('option', {until: exercise.duration}); 
+});
+
+</script>
