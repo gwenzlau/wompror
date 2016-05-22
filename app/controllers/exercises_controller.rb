@@ -23,6 +23,7 @@ class ExercisesController < ApplicationController
 
   def shuffle
     @exercises = Exercise.limit(1).order("RANDOM()")
+
   end
 
   # POST /exercises
