@@ -1,5 +1,5 @@
 class WorkoutsController < ApplicationController
-	before_action :set_workout, only: [:show, :edit, :update, :destroy]
+	before_action :set_workout, only: [:show, :edit, :update, :destroy, :shuffle]
 
 	def index
     @workouts = Workout.all
@@ -8,10 +8,7 @@ class WorkoutsController < ApplicationController
 	
 	 def new
     @workout = Workout.new
-  	end
-
-  	def shuffle
-  		@workout = Exercises.limit(:duration).order("RANDOM()")
+    @workexes = Exercise.limit(2).order("RANDOM()")
   	end
 
 
@@ -20,7 +17,7 @@ class WorkoutsController < ApplicationController
 
     respond_to do |format|
       if @workout.save
-        format.html { redirect_to @workout, notice: 'Get ready!' }
+        format.html { redirect_to @workout, notice: 'Ready... set... womp!' }
         format.json { render action: 'show', status: :created, location: @workout }
       else
         format.html { render action: 'new' }
@@ -33,6 +30,7 @@ class WorkoutsController < ApplicationController
 
 	def show
 		@exercises = Exercise.limit(1).order("RANDOM()")
+    
 	end
 
 	private

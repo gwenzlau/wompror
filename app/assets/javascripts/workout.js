@@ -1,27 +1,3 @@
-<br><br>
- <% @exercises.each do |exercise| %>
-     <h1 align="center"><%= exercise.name %></h1>
-<h1 id="shuffleclock" align="center">
-    <span class="minutes" ></span>:
-    <span class="seconds"></span>
-</h1>
-     <br>
-    <% end %>
-    <br><br>
-<hr>
-
-<hr>
-
-    <br><br>
-    <br><br>
-    up next:
-</br>
-    <%= link_to 'Back to Index', exercises_path %>
-    <%= link_to 'Quit', root_path %>
-<hr>
-
-
-<script>
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
@@ -56,12 +32,3 @@ function initializeClock(id, endtime) {
   updateClock();
   var timeinterval = setInterval(updateClock, 1000);
 }
-
-
-var timeInSeconds = <% @exercises.each do |ex| %>
-  <%= ex.duration %>; <% end %>
-var currentTime = Date.parse(new Date());
-var deadline = new Date(currentTime + timeInSeconds*1000);
-initializeClock('shuffleclock', deadline);
-
-</script>

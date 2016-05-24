@@ -1,17 +1,150 @@
-<p align="center">Alert: Starting in 3, 2, 1... disappear</p>
-<h1 align="center">Workout Show</h1>
- <p align="center">Total workout time left: <%= @workout.duration %></p>
+<p id="notice" align="center"><%= notice %></p>
+<h1 align="center">Your Workout</h1> <div id="clockdiv">
+  <p align="center">Total workout time left:
+    <span class="hours"></span> :
+    <span class="minutes"></span> :
+    <span class="seconds"></span>
+</div> </p>
  <hr>
-<h4 align="center">Render workouts loop<br><br>
 
-<table>
-  <% @exercises.each do |e| %>
-  <tr>
-      <td><h4<%= Exercise.find(params[e.exercise_id]).name %> <br>
-      	00:<%= Exercise.find(params[:id]).duration %></td>
-  </tr>
-  <%end%> 
-</table>
 
+
+
+<h1 align="center">
+<% @exercises.each do |ex| %>
+	<%= ex.name %> <br><br> <div id="exclock"> <span class="hours"></span> :
+    <span class="minutes"></span> :
+    <span class="seconds"></span>
+</div>
+<br><br>
+<% end %><br>
+</h1>
+
+
+
+<hr>
+<h4 align="center">total exercise.duration must limit == workout.duration<br><br>
+Total exercise duration:
+<%= @exercises.sum(:duration) %> seconds<br>
+Total workout time:
+<%= @workout.duration %> mins</p>
 	<br><br>
 <%= link_to 'Quit', root_path %></h4>
+<hr>
+<h3 align="center">
+
+	<hr>
+
+
+	<hr>
+
+<!-- 
+	<h1>Countdown Clock</h1>
+<div id="clockdiv">
+  
+  <div>
+    <span class="hours"></span>
+    <div class="smalltext">Hours</div>
+  </div>
+  <div>
+    <span class="minutes"></span>
+    <div class="smalltext">Minutes</div>
+  </div>
+  <div>
+    <span class="seconds"></span>
+    <div class="smalltext">Seconds</div>
+  </div>
+</div> -->
+<script>
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  return {
+    'total': t,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+//var deadline = new Date(Date.parse(new Date()) + 24 * 60 * 60 * 1000);
+
+var timeInSeconds = <%= @workout.duration * 60 %>;
+var currentTime = Date.parse(new Date());
+var deadline = new Date(currentTime + timeInSeconds*1000);
+initializeClock('clockdiv', deadline);
+
+
+//initializeClock('clockdiv', deadlineFromMinutes(<%= @ex %>)
+</script>
+<script>
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  return {
+    'total': t,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+//var deadline = new Date(Date.parse(new Date()) + 24 * 60 * 60 * 1000);
+
+var timeInSeconds = <% @exercises.each do |ex| %>
+	<%= ex.duration %>; <% end %>
+var currentTime = Date.parse(new Date());
+var deadline = new Date(currentTime + timeInSeconds*1000);
+initializeClock('exclock', deadline);
+
+
+//initializeClock('clockdiv', deadlineFromMinutes(<%= @ex %>)
+</script>

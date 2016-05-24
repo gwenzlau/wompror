@@ -1,12 +1,57 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @exercise.name %>
+<br>
+<h1 align="center">
+  <%= @exercise.name %></h1>
   <br>
-  <strong>Duration:</strong>
-  00:<%= @exercise.duration %>
-</p>
+  <h1 id="exclockshow" align="center">
+    <span class="minutes" ></span>:
+    <span class="seconds"></span>
+</h1>
+</p><br><br>
+<hr>
 
 <%= link_to 'Edit', edit_exercise_path(@exercise) %> |
 <%= link_to 'Back', exercises_path %>
+<%= link_to 'Home', root_path %>
+
+
+<script>
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+//var deadline = new Date(Date.parse(new Date()) + 24 * 60 * 60 * 1000);
+
+var timeInSeconds = <%= @exercise.duration %>;
+var currentTime = Date.parse(new Date());
+var deadline = new Date(currentTime + timeInSeconds*1000);
+initializeClock('exclockshow', deadline);
+
+</script>

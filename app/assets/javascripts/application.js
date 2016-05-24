@@ -16,4 +16,5 @@
 //= require_tree .
 //= require jquery.countdown.min
 //= require jquery.countdown
+//= require workout
 
